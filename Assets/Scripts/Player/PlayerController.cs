@@ -44,6 +44,8 @@ public class PlayerController : MonoBehaviour
     public float coyoteTime = 0.2f; 
     private float coyoteTimeCounter; 
     private float jumpBufferCounter;
+    public GameObject dustEffect;      // Drag Dust Prefab here
+    public Transform dustSpawnPoint;
 
     void Awake()
     {
@@ -185,6 +187,10 @@ public class PlayerController : MonoBehaviour
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         coyoteTimeCounter = 0f; 
         anim.SetTrigger("jump");
+        if (dustEffect != null && dustSpawnPoint != null)
+        {
+            Instantiate(dustEffect, dustSpawnPoint.position, Quaternion.identity);
+        }
     }
 
     void PerformWallJump()

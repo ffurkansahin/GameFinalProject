@@ -7,9 +7,7 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] float maxHealth = 100f;
     public float currentHealth { get; private set; }
     
-    [Header("Visuals")]
-    [SerializeField] float flashDuration = 0.1f;
-    [SerializeField] int numberOfFlashes = 3;
+  
     
     private bool isDead = false;
     private Animator animator;
@@ -33,7 +31,7 @@ public class EnemyHealth : MonoBehaviour
         if (currentHealth > 0)
         {
             animator.SetTrigger("hurt");
-            StartCoroutine(FlashEffect());
+            StartCoroutine(FlashWhite());
 
             // --- THE FIX ---
             // When hurt, find the AI and tell it to STOP attacking immediately
@@ -63,14 +61,23 @@ public class EnemyHealth : MonoBehaviour
         Destroy(gameObject, 1.5f);
     }
 
-    private IEnumerator FlashEffect()
+    public IEnumerator FlashWhite()
     {
-        for (int i = 0; i < numberOfFlashes; i++)
-        {
-            spriteRenderer.color = Color.red;
-            yield return new WaitForSeconds(flashDuration);
-            spriteRenderer.color = Color.white;
-            yield return new WaitForSeconds(flashDuration);
-        }
+        // Save original material/color
+        Color originalColor = spriteRenderer.color;
+        
+        // 1. Flash WHITE (Bright impact)
+        spriteRenderer.color = Color.white; 
+        // Note: If you use a custom shader, you might need a "FlashAmount" float instead.
+        // For standard Sprites, setting color to White only works if the material allows it, 
+        // otherwise it just brightens it. 
+        
+        // BETTER SIMPLE WAY: Toggle visibility or turn Red instantly
+        spriteRenderer.color = new Color(1, 0, 0, 1); // Pure Red
+        
+        yield return new WaitForSeconds(0.1f);
+        
+        // 2. Return to normal
+        spriteRenderer.color = Color.white; // Or originalColor
     }
 }

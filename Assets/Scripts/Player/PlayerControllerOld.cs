@@ -22,6 +22,8 @@ public class PlayerControllerOld : MonoBehaviour
     public float wallHopForce = 15f; // Force when jumping off wall (no input)
     public float wallJumpX = 12f;    // Force X when climbing/jumping (with input)
     public float wallJumpY = 14f;    // Force Y when climbing/jumping (with input)
+     public GameObject dustEffect;      // Drag Dust Prefab here
+    public Transform dustSpawnPoint;
    
 
     void Awake()
@@ -75,6 +77,10 @@ public class PlayerControllerOld : MonoBehaviour
    void Jump()
 {
     // --- 1. GROUND JUMP ---
+    if (dustEffect != null && dustSpawnPoint != null)
+        {
+            Instantiate(dustEffect, dustSpawnPoint.position, Quaternion.identity);
+        }
     if (isGrounded())
     {
         // CRITICAL: Reset Y velocity to 0 before adding force. 
