@@ -206,7 +206,7 @@ MonoBehaviour:
   attackCooldown: 0.2
   attackPoint: {fileID: 3903770391945576590}
   attackRange: 0.5
-  damage: 0
+  damage: 1
 --- !u!70 &5742110026615565226
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

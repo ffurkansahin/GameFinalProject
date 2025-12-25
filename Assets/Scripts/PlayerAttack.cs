@@ -33,12 +33,35 @@ public class PlayerAttack : MonoBehaviour
     {
         animator.SetTrigger("attack");
 
+        // Detect enemies
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, LayerMask.GetMask("Enemy"));
-        foreach (Collider2D enemy in hitEnemies)
+        
+        foreach (Collider2D enemyCollider in hitEnemies)
         {
-            Debug.Log("We hit " + enemy.name);
-        }
+            // 1. Try finding Normal Enemy Health
+            EnemyHealth normalEnemy = enemyCollider.GetComponent<EnemyHealth>();
+            if (normalEnemy != null)
+            {
+                normalEnemy.TakeDamage(damage);
+                continue; // Found one, move to next enemy
+            }
 
+            // 2. Try finding BOSS Health (NEW!)
+            BossHealth boss = enemyCollider.GetComponent<BossHealth>();
+            if (boss != null)
+            {
+                boss.TakeDamage(damage);
+                continue;
+            }
+
+            // 3. Old fallback (MeleeEnemy)
+            MeleeEnemy oldEnemy = enemyCollider.GetComponent<MeleeEnemy>();
+            if (oldEnemy != null)
+            {
+                oldEnemy.TakeDamage(damage);
+            }
+        }
+        
         cooldownTimer = 0;
     }
 }

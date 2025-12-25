@@ -8,6 +8,7 @@ public class Health : MonoBehaviour
     [SerializeField] float maxHealth;
     public float currentHealth { get; private set; }
     bool isDead = false;
+    public bool isInvincible = false;
     Animator animator;
 
     [SerializeField] float invulnerabilityDuration;
@@ -23,6 +24,7 @@ public class Health : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        if (isInvincible) return;
         currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
         if (currentHealth > 0)
         {
