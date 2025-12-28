@@ -16,13 +16,11 @@ public class PlayerControllerOld : MonoBehaviour
     private float horizontalInput;
     private float currentMoveSpeed => isGrounded() ? groundSpeed : airSpeed;
     [Header("Jump Settings")]
-// Increase these numbers! Force needs higher values than velocity.
-// Try starting around 15-20 for jumpForce.
     public float jumpForce = 16f; 
-    public float wallHopForce = 15f; // Force when jumping off wall (no input)
-    public float wallJumpX = 12f;    // Force X when climbing/jumping (with input)
-    public float wallJumpY = 14f;    // Force Y when climbing/jumping (with input)
-     public GameObject dustEffect;      // Drag Dust Prefab here
+    public float wallHopForce = 15f;
+    public float wallJumpX = 12f;
+    public float wallJumpY = 14f;
+     public GameObject dustEffect;
     public Transform dustSpawnPoint;
    
 
@@ -33,7 +31,6 @@ public class PlayerControllerOld : MonoBehaviour
         boxCollider = GetComponent<CapsuleCollider2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
@@ -76,46 +73,34 @@ public class PlayerControllerOld : MonoBehaviour
 
    void Jump()
 {
-    // --- 1. GROUND JUMP ---
     if (dustEffect != null && dustSpawnPoint != null)
         {
             Instantiate(dustEffect, dustSpawnPoint.position, Quaternion.identity);
         }
     if (isGrounded())
     {
-        // CRITICAL: Reset Y velocity to 0 before adding force. 
-        // This prevents the "heavy" feeling if you press jump while slightly falling.
         rb.velocity = new Vector2(rb.velocity.x, 0);
 
-        // Apply instant upward force
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         
         animator.SetTrigger("jump");
     }
-    // --- 2. WALL JUMP ---
     else if (onWall() && !isGrounded())
     {
-        // Get direction: 1 is right, -1 is left
         float facingDirection = Mathf.Sign(transform.localScale.x);
 
-        // Kill all current momentum so the wall jump feels snappy and consistent
         rb.velocity = Vector2.zero; 
 
         if (horizontalInput == 0)
         {
-            // Option A: "Wall Hop" (Pushing away from wall with no input)
-            // Force pushes strictly horizontal away from the wall
             rb.AddForce(new Vector2(-facingDirection * wallHopForce, 5f), ForceMode2D.Impulse);
 
-            // Handle the Flip
             Vector3 newScale = transform.localScale;
             newScale.x *= -1;
             transform.localScale = newScale;
         }
         else
         {
-            // Option B: "Wall Climb/Jump" (Holding input)
-            // Force pushes Up and Away
             rb.AddForce(new Vector2(-facingDirection * wallJumpX, wallJumpY), ForceMode2D.Impulse);
         }
 

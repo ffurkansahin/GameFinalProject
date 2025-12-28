@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 4170444177373706166}
   - component: {fileID: 4477324342859667294}
   - component: {fileID: 7958177790249808510}
-  - component: {fileID: 8727552579063744125}
   - component: {fileID: 7131854153323594611}
+  - component: {fileID: 963306649270888920}
   m_Layer: 9
   m_Name: Enemy_Skeleton
   m_TagString: Enemy
@@ -172,21 +172,6 @@ CapsuleCollider2D:
   m_Offset: {x: -0.27771068, y: 0}
   m_Size: {x: 0.7654824, y: 1.9166666}
   m_Direction: 0
---- !u!114 &8727552579063744125
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 718880574801573975}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a20e15f206ecc644f99418590df0e177, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 3
-  invulnerabilityDuration: 0
-  numberOfFlashes: 0
 --- !u!114 &7131854153323594611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,8 +187,26 @@ MonoBehaviour:
   attackCooldown: 1.5
   range: 1.5
   colliderDistance: 0.6
-  damage: 0.5
+  damage: 1
+  damageDelay: 0.4
   capsuleCollider: {fileID: 7958177790249808510}
   playerLayer:
     serializedVersion: 2
     m_Bits: 256
+  maxHealth: 100
+  knockbackForce: 10
+  stunTime: 0.5
+  isStunned: 0
+--- !u!114 &963306649270888920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 718880574801573975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c91985fea983ba4a9e4ebb04f5d28c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 3

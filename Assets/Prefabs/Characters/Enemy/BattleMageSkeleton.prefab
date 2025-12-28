@@ -206,6 +206,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c91985fea983ba4a9e4ebb04f5d28c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 5
-  flashDuration: 0.1
-  numberOfFlashes: 1
+  maxHealth: 3

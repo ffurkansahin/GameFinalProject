@@ -41,12 +41,13 @@ GameObject:
   m_Component:
   - component: {fileID: 5357630181192751236}
   - component: {fileID: 7113513284747737368}
+  - component: {fileID: 1912995535119495963}
   - component: {fileID: 2425837311254892903}
-  - component: {fileID: 3787923258037446225}
   - component: {fileID: 3777336709061858298}
   - component: {fileID: 8882069562211443618}
   - component: {fileID: 5742110026615565226}
   - component: {fileID: 944392459846083778}
+  - component: {fileID: 654284312704570270}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -68,6 +69,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3903770391945576590}
+  - {fileID: 6943371178637308410}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7113513284747737368
@@ -122,6 +124,43 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1912995535119495963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2718364265371787777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 757c3c1f799349d4babdcb450880bddf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 8
+  jumpForce: 15
+  rollForce: 15
+  rollDuration: 0.5
+  rollCooldown: 1
+  wallSlidingSpeed: 2
+  wallJumpForceX: 15
+  wallJumpForceY: 15
+  defaultGravity: 4
+  fallMultiplier: 5
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  groundCheckDistance: 0.1
+  wallCheckDistance: 0.5
+  coyoteTime: 0.1
+  dustEffect: {fileID: 5111048455319083520, guid: 19fe7a4c9e63f1242b8dacae162b5a15, type: 3}
+  dustSpawnPoint: {fileID: 6943371178637308410}
+  audioSource: {fileID: 0}
+  jumpSound: {fileID: 8300000, guid: beaeaa18476c1254196e842f78c1cd29, type: 3}
+  walkSound: {fileID: 8300000, guid: 4ffe475e6997a4f40a3604c1956cafb4, type: 3}
+  footstepDelay: 0.3
 --- !u!50 &2425837311254892903
 Rigidbody2D:
   serializedVersion: 4
@@ -134,10 +173,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 10
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 4
   m_Material: {fileID: 6200000, guid: 8b5423918238faf408914a7126234cc6, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -149,32 +188,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &3787923258037446225
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2718364265371787777}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5539db4e2730e394c92f963c02079b0e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundSpeed: 8
-  airSpeed: 6
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  wallLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  jumpForce: 7
-  wallHopForce: 15
-  wallJumpX: 12
-  wallJumpY: 14
-  dustEffect: {fileID: 5111048455319083520, guid: 19fe7a4c9e63f1242b8dacae162b5a15, type: 3}
-  dustSpawnPoint: {fileID: 0}
 --- !u!95 &3777336709061858298
 Animator:
   serializedVersion: 5
@@ -214,6 +227,8 @@ MonoBehaviour:
   damage: 1
   camShake: {fileID: 0}
   bloodEffect: {fileID: 2680796899638568718, guid: c728a753d033684478edc1e1f4c94c1a, type: 3}
+  audioSource: {fileID: 0}
+  attackSound: {fileID: 8300000, guid: a7abe2443c2c55c41a42262d6826032a, type: 3}
 --- !u!70 &5742110026615565226
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -261,7 +276,140 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a20e15f206ecc644f99418590df0e177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 3
+  maxHealth: 10
+  deathEffect: {fileID: 0}
+  restartDelay: 1.5
   isInvincible: 0
   invulnerabilityDuration: 2
-  numberOfFlashes: 3
+  numberOfFlashes: 1
+  audioSource: {fileID: 0}
+  hurtSound: {fileID: 8300000, guid: 0ce7dbe57be5cb24e81017103cc961c4, type: 3}
+  dieSound: {fileID: 8300000, guid: 056760f0ae693474897585e27bd52334, type: 3}
+  collectHealthSound: {fileID: 8300000, guid: b113c7f71b4dac34fa892fb2ac94f99c, type: 3}
+--- !u!82 &654284312704570270
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2718364265371787777}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!1 &5815250976172783253
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6943371178637308410}
+  m_Layer: 8
+  m_Name: DustEffectTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6943371178637308410
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5815250976172783253}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.154, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5357630181192751236}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
