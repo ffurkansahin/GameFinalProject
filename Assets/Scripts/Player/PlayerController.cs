@@ -53,6 +53,7 @@ public class PlayerController : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip jumpSound;
     public AudioClip walkSound;
+    public AudioClip dashSound;
     private float footstepTimer;
     public float footstepDelay = 0.3f;
 
@@ -182,6 +183,7 @@ public class PlayerController : MonoBehaviour
         if (health != null) health.isInvincible = true;
         Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, true);
 
+        audioSource.PlayOneShot(dashSound,0.1f);
         anim.SetTrigger("roll");
 
         float direction = Mathf.Sign(transform.localScale.x);
