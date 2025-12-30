@@ -1,3 +1,4 @@
+using System.Runtime.Serialization.Formatters;
 using UnityEngine;
 
 public class LavaController : MonoBehaviour
@@ -28,6 +29,10 @@ public class LavaController : MonoBehaviour
             {
                 healthScript.TakeDamage(999);
             }
+        }
+        if (collision.CompareTag("Enemy"))
+        {
+            Destroy(collision.gameObject);
         }
     }
 }
